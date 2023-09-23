@@ -2,7 +2,7 @@
 
 -   clone https://github.com/DwiPashaDjango/bkk-smkn-tanjungsari.git
 -   buka direktori project di terminal anda.
--   ketikan command : cp .env.example .env (copy paste file .env.example)
+-   ketikan command : cp .env.example .env
 -   buat database
 
 Lalu ketik command dibawah ini

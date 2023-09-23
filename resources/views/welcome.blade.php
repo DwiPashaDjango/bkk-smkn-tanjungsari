@@ -117,8 +117,21 @@
                         <div class="col-lg-12 col-md-12" id="penghasilan_hide">
                             <div class="form-group">
                                 <label for="">Penghasilan</label>
-                                <input type="text" value="{{old('penghasilan')}}" class="form-control" name="penghasilan" id="penghasilan">
+                                <select id="penghasilan" class="form-control">
+                                    <option value="">- Pilih -</option>
+                                    <option value="1.000.000.00 - 2.000.000.00">1.000.000.00 - 2.000.000.00</option>
+                                    <option value="2.000.000.00 - 3.000.000.00">2.000.000.00 - 3.000.000.00</option>
+                                    <option value="3.000.000.00 - 4.000.000.00">3.000.000.00 - 4.000.000.00</option>
+                                    <option value="4.000.000.00 - 5.000.000.00">4.000.000.00 - 5.000.000.00</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
                                 <span class="invalid-feedback-penghasilan text-danger"></span>
+                            </div>
+
+                            <div class="form-group" id="append_penghasilan" >
+                                <label for="">Isi Penghasilan Saudara</label>
+                                <input type="text" name="penghasilan" id="append_penghasilan_2" class="form-control">
+                                <span class="invalid-feedback-penghasilan-append text-danger"></span>
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12" id="universitas_hide">
@@ -181,34 +194,35 @@
                 </div>
             </div>
         </div>
+
+        <div class="section-title">Loker Terbaru</div>
+        <br>
+        <div class="owl-carousel owl-theme row" id="users-carousel">
+            @foreach ($loker_all as $item)
+                <div>
+                    <div class="col-lg-12">
+                        <article class="article">
+                            <div class="article-header">
+                                <img class="article-image" src="{{asset('img/article/' . $item->thumbnail)}}">
+                                <div class="article-title">
+                                    <h2><a href="{{route('guest.article.show', ['id' => $item->id, 'nm_pt' => $item->nm_pt])}}">{{$item->nm_pt}}</a></h2>
+                                </div>
+                            </div>
+                            <div class="article-details">
+                                <p>
+                                    {!! Str::words($item->description, 50, '...') !!}
+                                </p>
+                                <div class="article-cta">
+                                    <a href="{{route('guest.article.show', ['id' => $item->id, 'nm_pt' => $item->nm_pt])}}" class="btn btn-primary">Selengkapnya</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     @endif
 
-    <div class="section-title">Loker Terbaru</div>
-    <br>
-    <div class="owl-carousel owl-theme row" id="users-carousel">
-        @foreach ($loker_all as $item)
-            <div>
-                <div class="col-lg-12">
-                    <article class="article">
-                        <div class="article-header">
-                            <img class="article-image" src="{{asset('img/article/' . $item->thumbnail)}}">
-                            <div class="article-title">
-                                <h2><a href="{{route('guest.article.show', ['id' => $item->id, 'nm_pt' => $item->nm_pt])}}">{{$item->nm_pt}}</a></h2>
-                            </div>
-                        </div>
-                        <div class="article-details">
-                            <p>
-                                {!! Str::words($item->description, 50, '...') !!}
-                            </p>
-                            <div class="article-cta">
-                                <a href="{{route('guest.article.show', ['id' => $item->id, 'nm_pt' => $item->nm_pt])}}" class="btn btn-primary">Selengkapnya</a>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        @endforeach
-    </div>
 @endsection
 
 @push('js')
@@ -302,13 +316,19 @@
                 }
             });
 
-            $("#penghasilan").keyup(function() {
-                let value = $(this).val();
+            $("#append_penghasilan").hide();
+            $("#penghasilan").change(function() {
+                let value = $(this).find('option:selected').val();
                 if (value == '') {
                     $("#penghasilan").addClass('is-invalid');
                     $(".invalid-feedback-penghasilan").html('Penghasilan Tidak Boleh kKsong.');
                     $("#store").hide();
                 } else {
+                    if (value != 'lainnya') {
+                        $("#append_penghasilan_2").val(value);
+                    } else {
+                        $("#append_penghasilan").show();
+                    }
                     $("#store").show();
                 }
             });

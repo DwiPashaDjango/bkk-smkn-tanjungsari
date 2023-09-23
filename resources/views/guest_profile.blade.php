@@ -76,7 +76,7 @@
                     <div class="col-lg-12 col-md-12" id="penghasilan_hide">
                         <div class="form-group">
                             <label for="">Penghasilan</label>
-                            <input type="text" disabled value="{{number_format(Auth::user()->user_profile->penghasilan)}}" class="form-control" name="penghasilan" id="penghasilan">
+                            <input type="text" disabled value="{{Auth::user()->user_profile->penghasilan}}" class="form-control" name="penghasilan" id="penghasilan">
                             <span class="invalid-feedback-penghasilan text-danger"></span>
                         </div>
                     </div>

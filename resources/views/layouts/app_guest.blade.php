@@ -103,7 +103,7 @@
           <div class="section-header">
             <marquee behavior="500" direction="500">
                 <h1 class="">
-                    Selamat Datang Di sistem informasi BKK SMKN Tanjung Sari
+                    Selamat Datang Di sistem informasi BKK SMK Negri Tanjung Sari
                 </h1>
             </marquee>
           </div>
@@ -115,7 +115,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; SMKN TANJUNG SARI {{date('Y')}}
+          Copyright &copy; SMK Negri TANJUNG SARI {{date('Y')}}
         </div>
         <div class="footer-right">
 

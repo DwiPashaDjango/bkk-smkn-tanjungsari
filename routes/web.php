@@ -7,6 +7,7 @@ use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GuestArticleController;
 use App\Http\Controllers\GuestProfileController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,4 +55,9 @@ Route::group(['middleware' => ['auth', 'cekRole:admin']], function () {
     Route::get('/data-lokers/show/', [AdminArticleController::class, 'edit'])->name('admin.loker.edit');
     Route::put('/data-lokers/{id}', [AdminArticleController::class, 'update'])->name('admin.lokers.update');
     Route::delete('/data-lokers/{id}', [AdminArticleController::class, 'destroy'])->name('admin.lokers.destroy');
+});
+
+
+Route::get('/symlink', function () {
+    Artisan::call('storage:link');
 });

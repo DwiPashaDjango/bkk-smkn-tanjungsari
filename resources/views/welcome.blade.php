@@ -33,14 +33,19 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="text" disabled value="{{auth()->user()->email}}" class="form-control">
+                                <label for="">NISN</label>
+                                <input type="text" disabled value="{{auth()->user()->nisn}}" class="form-control">
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12">
                             <div class="form-group">
-                                <label for="">NISN</label>
-                                <input type="text" disabled value="{{auth()->user()->nisn}}" class="form-control">
+                                <label for="">Email</label>
+                                <input type="text" name="email" class="form-control  @error('email') is-invalid @enderror">
+                                @error('email')
+                                    <span class="invalid-feedbac">
+                                        {{$message}}
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
@@ -68,13 +73,14 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="">Jurusan</label>
-                                <select name="jurusans_id" id="jurusans_id" class="form-control @error('jurusans_id') is-invalid @enderror">
+                                <select name="jurusan" id="jurusan" class="form-control @error('jurusan') is-invalid @enderror">
                                     <option value="">- Pilih -</option>
-                                    @foreach ($jurusan as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
+                                    <option value="TKJ" @if (Auth::user()->jurusan == 'TKJ') selected @endif>TKJ</option>
+                                    <option value="TKRO" @if (Auth::user()->jurusan == 'TKRO') selected @endif>TKRO</option>
+                                    <option value="Asper" @if (Auth::user()->jurusan == 'Asper') selected @endif>Asper</option>
+                                    <option value="MM" @if (Auth::user()->jurusan == 'MM') selected @endif>MM</option>
                                 </select>
-                                @error('jurusans_id')
+                                @error('jurusan')
                                     <span class="invalid-feedback">
                                         {{$message}}
                                     </span>
@@ -114,6 +120,13 @@
                             </div>
                         </div>
                         {{-- hide --}}
+                        <div class="col-lg-12 col-md-12" id="perusahaan_hide">
+                            <div class="form-group">
+                                <label for="">Perusahaan</label>
+                                <input type="text" name="perusahaan" id="perusahaan" class="form-control">
+                                <span class="invalid-feedback-perusahaan text-danger"></span>
+                            </div>
+                        </div>
                         <div class="col-lg-12 col-md-12" id="penghasilan_hide">
                             <div class="form-group">
                                 <label for="">Penghasilan</label>
@@ -171,6 +184,10 @@
                 </form>
             </div>
         </div>
+    @elseif(!isset(Auth::user()->email_verified_at) && Auth::check())
+     <div class="alert alert-warning">
+        <b>Silahkan Lakukan Verifikasi Email Yang Sudah Di Kirim Ke Email {{Auth::user()->email}}</b>
+     </div>
     @else
         <div class="card card-primary">
             <div class="card-body">
@@ -222,7 +239,6 @@
             @endforeach
         </div>
     @endif
-
 @endsection
 
 @push('js')
@@ -299,17 +315,21 @@
             $("#store").hide()
             $("#penghasilan_hide").hide();
             $("#universitas_hide").hide();
+            $("#perusahaan_hide").hide();
             $("#sts_karir").change(function() {
                 let value = $(this).val();
                 if (value == 'Bekerja') {
                     $("#universitas_hide").hide();
                     $("#penghasilan_hide").show();
+                    $("#perusahaan_hide").show();
                 } else if(value == 'Kuliah') {
                     $("#penghasilan_hide").hide();
                     $("#universitas_hide").show();
+                    $("#perusahaan_hide").hide();
                 } else if(value == 'Belum') {
                     $("#penghasilan_hide").hide();
                     $("#universitas_hide").hide();
+                    $("#perusahaan_hide").hide();
                     $("#store").show();
                 } else {
                     $("#store").hide()
@@ -319,13 +339,15 @@
             $("#append_penghasilan").hide();
             $("#penghasilan").change(function() {
                 let value = $(this).find('option:selected').val();
+                $("#append_penghasilan_2").val(value);
+                console.log(value);
                 if (value == '') {
                     $("#penghasilan").addClass('is-invalid');
                     $(".invalid-feedback-penghasilan").html('Penghasilan Tidak Boleh kKsong.');
                     $("#store").hide();
                 } else {
                     if (value != 'lainnya') {
-                        $("#append_penghasilan_2").val(value);
+                        $("#append_penghasilan").hide();
                     } else {
                         $("#append_penghasilan").show();
                     }

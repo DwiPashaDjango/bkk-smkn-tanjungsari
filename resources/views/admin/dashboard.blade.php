@@ -50,7 +50,7 @@
                             <h4>Total Jurusan</h4>
                         </div>
                         <div class="card-body">
-                            {{$jurusan_count}}
+                            4
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{$user->name}}</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,7 +69,7 @@
         <tr>
             <th style="width: 30%; border: 1px solid #ddd;">Foto</th>
             <th style="width: 5px; border: 1px solid #ddd;">:</th>
-            <td style="border: 1px solid #ddd;"><img src="{{$avatar}}" width="100" alt=""></td>
+            <td style="border: 1px solid #ddd;"><img src="{{$avatar ?? ''}}" width="100" alt=""></td>
         </tr>
         <tr>
             <th style="width: 30%; border: 1px solid #ddd;">Nama Lengkap</th>

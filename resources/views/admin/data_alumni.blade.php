@@ -25,6 +25,8 @@
         <div class="card card-primary">
             <div class="card-header">
                 <button class="btn btn-danger" id="export"><i class="fas fa-file-pdf"></i></button>
+                <button class="btn btn-primary ml-2" id="import"><i class="fas fa-file-import"></i></button>
+                <a href="{{route('export.excel.alumni')}}" class="btn btn-success ml-2" id="import"><i class="fas fa-file-excel"></i></a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -46,12 +48,18 @@
                                     <td>{{$loop->iteration}}</td>
                                     <td><a href="javascript:void(0)" class="show" data-id="{{$item->id}}">{{$item->nisn}}</a></td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->email}}</td>
+                                    <td>{{$item->email ?? ''}}</td>
                                     <td>{{$item->user_profile->tmp_lahir ?? 'belum mengisi'}}, {{$item->user_profile->tgl_lahir ?? 'belum mengisi'}}</td>
                                     <td>Angkatan {{$item->user_profile->thn_lulus ?? 'belum mengisi'}}</td>
                                     <td>
-                                        <a href="{{url('/data-alumni/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
-                                        <a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-id="{{$item->id}}"><i class="fas fa-trash"></i></a>
+                                        @if (!isset($item->user_profile->avatar))
+                                            <a href="{{url('/data-alumni/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-id="{{$item->id}}"><i class="fas fa-trash"></i></a>
+                                        @else
+                                            <a href="{{url('/data-alumni/generate/' . $item->id)}}" target="__blank" class="btn btn-info btn-sm"><i class="fas fa-download"></i></a>
+                                            <a href="{{url('/data-alumni/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-id="{{$item->id}}"><i class="fas fa-trash"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -181,6 +189,34 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalImport" tabindex="-1" role="dialog" aria-labelledby="modalImportLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalImportLabel">Import Data Alumni</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form action="{{route('import.alumni')}}" method="POST" class="form-check" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label for="">File <span class="text-info">(xlsx, csv, xls)</span></label>
+                    <input type="file" name="file" id="file" class="form-control @error('file') is-invalid @enderror">
+                    @error('file')
+                        <span class="invalid-feedback">{{$message}}</span>
+                    @enderror
+                </div>
+                <a href="{{asset('template/contoh_format_excel.xlsx')}}" download="" class="btn btn-success float-left">Download Template Excel</a>
+                <button type="submit" class="btn btn-primary float-right">Import</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 @endpush
 
 @push('js')
@@ -210,7 +246,6 @@
                         method: 'GET',
                         dataType: 'json',
                         success: function(res) {
-                            console.log(res);
                             $('#modalUser').modal('show');
                             $('#modalUserLabel').html(res.data.name);
 
@@ -226,7 +261,7 @@
                             if (res.data.user_profile != null) {
                                 $("#tmp_lahir").val(res.data.user_profile.tmp_lahir);
                                 $("#tgl_lahir").val(res.data.user_profile.tgl_lahir);
-                                $("#jurusan").val(res.data.user_profile.jurusan.name);
+                                $("#jurusan").val(res.data.jurusan);
                                 $("#thn_lulus").val(res.data.user_profile.thn_lulus);
                                 $("#sts_karir").val(res.data.user_profile.sts_karir);
                                 $("#telp").val(res.data.user_profile.telp);
@@ -281,6 +316,10 @@
                 let thn_lulus = $('#thn_lulus_export').val();
                 window.open('/data-alumni/export/' + thn_lulus)
             });
+
+            $("#import").click(function() {
+                $("#modalImport").modal('show');
+            })
         })
     </script>
 @endpush

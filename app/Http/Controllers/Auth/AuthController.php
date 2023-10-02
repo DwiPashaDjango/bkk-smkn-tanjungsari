@@ -44,19 +44,15 @@ class AuthController extends Controller
         $user = User::where('nisn', $nisn)->orWhere('email', $nisn)->first();
 
         if ($user) {
-            if ($user->email_verified_at != null) {
-                if (Hash::check($password, $user->password)) {
-                    Auth::login($user);
-                    if (Auth::user()->roles === 'admin') {
-                        return redirect('/dashboard');
-                    } else {
-                        return redirect('/');
-                    }
+            if (Hash::check($password, $user->password)) {
+                Auth::login($user);
+                if (Auth::user()->roles === 'admin') {
+                    return redirect('/dashboard');
                 } else {
-                    return back()->with(['message' => 'Email Or Nisn Or Password Salah.']);
+                    return redirect('/');
                 }
             } else {
-                return back()->with(['message' => 'Silahkan lakukan verifikasi email terlebih dahulu untuk mengakses halaman selanjutnya']);
+                return back()->with(['message' => 'Email Or Nisn Or Password Salah.']);
             }
         }
         return back()->with(['message' => 'Akun Tidak Terdaftar.']);

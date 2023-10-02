@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jurusan;
 use App\Models\Loker;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -18,12 +17,10 @@ class DashboardController extends Controller
     {
         $users_admin = User::where('roles', 'admin')->count();
         $users_alumni = User::where('roles', 'alumni')->count();
-        $jurusan_count = Jurusan::count();
         $loker_count = Loker::count();
         return view('admin.dashboard', [
             'users_admin' => $users_admin,
             'users_alumni' => $users_alumni,
-            'jurusan_count' => $jurusan_count,
             'loker_count' => $loker_count
         ]);
     }

@@ -75,9 +75,6 @@
                 </form>
               </div>
             </div>
-            <div class="mt-5 text-muted text-center">
-              Daftar Sebagai Alumni? <a href="{{route('register')}}">Daftar</a>
-            </div>
             <div class="simple-footer">
               Copyright &copy; SMKN TANJUNG SARI {{date('Y')}}
             </div>

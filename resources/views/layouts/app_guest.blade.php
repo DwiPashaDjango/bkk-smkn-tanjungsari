@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>@yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="stylesheet" href="{{asset('') }}modules/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{asset('') }}modules/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="{{asset('') }}css/style.css">
@@ -63,8 +64,8 @@
             </ul>
         @else
             <ul class="navbar-nav navbar-right" id="nav-right">
-                <li class="nav-item active"><a href="mailto:smkn1tjsari@gmail.com" class="nav-link"><i class="fas fa-envelope"></i> smkn1tjsari@gmail.com</a></li>
-                <li class="nav-item"><a href="#" class="nav-link"><i class="fas fa-mobile"></i> 08127971961</a></li>
+                <li class="nav-item active"><a href="#" class="nav-link" id="email"></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" id="telp"></a></li>
             </ul>
         @endauth
       </nav>
@@ -86,9 +87,6 @@
                 @endif
             @endauth
             @if (!Auth::check())
-                <li class="nav-item">
-                    <a href="{{url('/register')}}" class="nav-link"><i class="fas fa-sign-in-alt"></i><span>Pendaftaran</span></a>
-                </li>
                 <li class="nav-item">
                     <a href="{{url('/login')}}" class="nav-link"><i class="fas fa-user"></i><span>Login</span></a>
                 </li>
@@ -118,22 +116,35 @@
           Copyright &copy; SMK Negri TANJUNG SARI {{date('Y')}}
         </div>
         <div class="footer-right">
-
+            <a href="https://www.smkntanjungsari.sch.id/">SMK Negri Tanjung Sari</a>
         </div>
       </footer>
     </div>
   </div>
 
   <!-- General JS Scripts -->
-  <script src="{{asset('') }}modules/jquery.min.js"></script>
-  <script src="{{asset('') }}modules/popper.js"></script>
-  <script src="{{asset('') }}modules/tooltip.js"></script>
-  <script src="{{asset('') }}modules/bootstrap/js/bootstrap.min.js"></script>
-  <script src="{{asset('') }}modules/nicescroll/jquery.nicescroll.min.js"></script>
-  <script src="{{asset('') }}modules/moment.min.js"></script>
-  <script src="{{asset('') }}js/stisla.js"></script>
-  <script src="{{asset('') }}js/scripts.js"></script>
-  <script src="{{asset('') }}js/custom.js"></script>
-  @stack('js')
+    <script src="{{asset('') }}modules/jquery.min.js"></script>
+    <script src="{{asset('') }}modules/popper.js"></script>
+    <script src="{{asset('') }}modules/tooltip.js"></script>
+    <script src="{{asset('') }}modules/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{asset('') }}modules/nicescroll/jquery.nicescroll.min.js"></script>
+    <script src="{{asset('') }}modules/moment.min.js"></script>
+    <script src="{{asset('') }}js/stisla.js"></script>
+    <script src="{{asset('') }}js/scripts.js"></script>
+    <script src="{{asset('') }}js/custom.js"></script>
+    @stack('js')
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.getJSON('/settings/getSekolah', function(data) {
+            let result = data[0];
+            console.log(result);
+            $('#email').html(`<i class="fas fa-envelope"></i> ` + result.email_sekolah);
+            $('#telp').html(`<i class="fas fa-mobile"></i> ` + result.telp)
+        })
+    </script>
 </body>
 </html>

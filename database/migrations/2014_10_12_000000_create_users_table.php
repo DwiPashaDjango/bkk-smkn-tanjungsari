@@ -16,8 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->enum('roles', ['admin', 'alumni']);
             $table->bigInteger('nisn')->unique()->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('jurusan', ['TKJ', 'Asper', 'TKRO', 'MM']);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

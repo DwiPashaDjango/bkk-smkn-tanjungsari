@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Jurusan;
 use App\Models\Loker;
+use App\Models\User;
 use App\Models\UserProfile;
+use App\Models\UserVerify;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class BerandaController extends Controller
 {
@@ -18,23 +21,21 @@ class BerandaController extends Controller
 
     public function index()
     {
-        $jurusan = Jurusan::all();
         $loker_all = Loker::with('author')->where('status', 1)->orderBy('id', 'desc')->paginate(6);
-        return view('welcome', compact('jurusan', 'loker_all'));
+        return view('welcome', compact('loker_all'));
     }
 
     public function save_user_profile(Request $request)
     {
         $request->validate([
-            'jurusans_id' => 'required',
             'tmp_lahir' => 'required',
             'tgl_lahir' => 'required',
             'thn_lulus' => 'required',
             'sts_karir' => 'required',
             'telp' => 'required',
-            'avatar' => 'required|mimes:jpg,jpeg,png|max:2048'
+            'avatar' => 'required|mimes:jpg,jpeg,png|max:2048',
+            'email' => 'required|email|unique:users,email'
         ], [
-            'jurusans_id.required' => 'Pilih Jurusan Saat Saudara Masih Sekolah.',
             'tmp_lahir.required' => 'Tempat Lahir Tidak Boleh Kosong.',
             'tgl_lahir.required' => 'Tanggal Lahir Tidak Boleh Kosong.',
             'thn_lulus.required' => 'Pilih Tahun Kelulusan Saudara.',
@@ -45,23 +46,42 @@ class BerandaController extends Controller
             'avatar.max' => 'Ukuran Foto Maksimal 2 mb'
         ]);
 
+        User::where('id', Auth::user()->id)->update([
+            'email' => $request->email,
+            'jurusan' => $request->jurusan,
+        ]);
+
         $file = $request->file('avatar');
         $fileName = date('dmy H:i:s') . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('img/avatar/alumni/'), $fileName);
         $path = '/avatar/alumni/' . $fileName;
 
-        UserProfile::create([
+        $save = UserProfile::create([
             'users_id' => Auth::user()->id,
-            'jurusans_id' => $request->jurusans_id,
             'tmp_lahir' => $request->tmp_lahir,
             'tgl_lahir' => $request->tgl_lahir,
             'thn_lulus' => $request->thn_lulus,
             'sts_karir' => $request->sts_karir,
             'penghasilan' => $request->penghasilan,
             'universitas' => $request->universitas,
+            'perusahaan' => $request->perusahaan,
             'telp' => $request->telp,
             'avatar' => $fileName
         ]);
+
+        $token = Str::random(64);
+
+        $user = User::with('user_profile')->where('id', $save->users_id)->first();
+
+        UserVerify::create([
+            'user_id' => $save->users_id,
+            'token' => $token
+        ]);
+
+        Mail::send('auth.emails', ['token' => $token, 'user_id' => $save->users_id, 'user' => $user], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Verifikasi Akun BKK SMKN Tanjung Sari');
+        });
 
         return redirect('/')->with(['message' => 'Berhasil Melengkapi Data Biodata .']);
     }

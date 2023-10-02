@@ -79,11 +79,12 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="form-group">
                                 <label for="">Jurusan</label>
-                                <select name="jurusans_id" id="jurusans_id" class="form-control @error('jurusans_id') is-invalid @enderror">
+                                <select name="jurusan" id="jurusan" class="form-control @error('jurusan') is-invalid @enderror">
                                     <option value="">- Pilih -</option>
-                                    @foreach ($jurusan as $item)
-                                        <option value="{{$item->id}}" {{$data->user_profile->jurusans_id ?? '' == $item->id ? 'selected' : ''}}>{{$item->name}}</option>
-                                    @endforeach
+                                    <option value="TKJ" @if ($data->jurusan == 'TKJ') selected @endif>TKJ</option>
+                                    <option value="TKRO" @if ($data->jurusan == 'TKRO') selected @endif>TKRO</option>
+                                    <option value="Asper" @if ($data->jurusan == 'Asper') selected @endif>Asper</option>
+                                    <option value="MM" @if ($data->jurusan == 'MM') selected @endif>MM</option>
                                 </select>
                                 @error('jurusans_id')
                                     <span class="invalid-feedback">

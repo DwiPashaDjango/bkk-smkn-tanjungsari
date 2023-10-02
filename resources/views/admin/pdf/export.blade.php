@@ -69,7 +69,7 @@
                        <td>{{$item->user->name}}</td>
                        <td>{{$item->user->email}}</td>
                        <td>{{$item->tmp_lahir ?? 'belum mengisi'}}, {{\Carbon\Carbon::parse($item->tgl_lahir)->format('d-m-Y') ?? 'belum mengisi'}}</td>
-                       <td>{{$item->jurusan->name}}</td>
+                       <td>{{$item->jurusan}}</td>
                        <td>Angkatan {{$item->thn_lulus ?? 'belum mengisi'}}</td>
                        <td>
                          @if ($item->sts_karir == 'Belum')

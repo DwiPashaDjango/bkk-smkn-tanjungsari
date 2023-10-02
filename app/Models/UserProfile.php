@@ -15,9 +15,4 @@ class UserProfile extends Model
     {
         return $this->belongsTo(User::class, 'users_id', 'id');
     }
-
-    public function jurusan()
-    {
-        return $this->belongsTo(Jurusan::class, 'jurusans_id', 'id');
-    }
 }

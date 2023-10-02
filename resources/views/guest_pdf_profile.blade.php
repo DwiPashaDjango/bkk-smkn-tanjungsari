@@ -58,7 +58,7 @@
             <td width="25"><img src="{{$left_logo}}" width="100%"></td>
             <td width="75" style="text-align: center">
                 <h2>Bursa Kerja Khusus (BKK)</h2>
-                <h1>SMK Negri Tanjung Sari</h1>
+                <h1>SMK NEGERI TANJUNGSARI</h1>
                 <p>JL. Raya Kertosari No. 51 B, Kertosari Kec. Tanjung Sari Kab. Lampung Selatan Kode Pos : 35361</p>
                 <p>Email : smkn1tjsari@gmail.com, NPSN : 10812412, Telepon: 08127971961</p>
             </td>
@@ -105,6 +105,11 @@
             <th style="width: 30%; border: 1px solid #ddd;">:</th>
             <td style="border: 1px solid #ddd;">{{$user->user_profile->sts_karir}}</td>
         </tr>
+         <tr>
+            <th style="width: 30%; border: 1px solid #ddd;">Status Karir</th>
+            <th style="width: 30%; border: 1px solid #ddd;">:</th>
+            <td style="border: 1px solid #ddd;">{{$user->user_profile->perusahaan}}</td>
+        </tr>
         <tr>
             <th style="width: 30%; border: 1px solid #ddd;">Penghasilan</th>
             <th style="width: 30%; border: 1px solid #ddd;">:</th>
@@ -116,7 +121,7 @@
             <td style="border: 1px solid #ddd;">{{$user->user_profile->universitas ?? '-'}}</td>
         </tr>
         <tr>
-            <th style="width: 30%; border: 1px solid #ddd;">No Telephone</th>
+            <th style="width: 30%; border: 1px solid #ddd;">No HP/ WA</th>
             <th style="width: 30%; border: 1px solid #ddd;">:</th>
             <td style="border: 1px solid #ddd;">{{$user->user_profile->telp ?? '-'}}</td>
         </tr>

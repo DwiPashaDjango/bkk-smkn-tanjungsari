@@ -56,6 +56,7 @@
                    <th>Jurusan</th>
                    <th class="text-white">Tahun Lulus</th>
                    <th>Status Karir</th>
+                   <th>Perusahaan</th>
                    <th>Penghasilan</th>
                    <th>Universitas</th>
                    <th>No HP</th>
@@ -79,8 +80,15 @@
                          @endif
                        </td>
                        <td>
+                        @if ($item->perusahaan != null)
+                            {{$item->perusahaan}}
+                        @else
+                            -
+                        @endif
+                       </td>
+                       <td>
                         @if ($item->penghasilan != null)
-                            {{number_format($item->penghasilan)}}
+                            {{$item->penghasilan}}
                         @else
                             -
                         @endif

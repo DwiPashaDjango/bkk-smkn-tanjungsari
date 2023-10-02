@@ -64,10 +64,5 @@ Route::group(['middleware' => ['auth', 'cekRole:admin']], function () {
     Route::post('/settings/update-profile', [SettingController::class, 'updateProfile'])->name('settings.update.profile');
     Route::post('/settings/reset-password', [SettingController::class, 'resetPassword'])->name('settings.reset.password');
 });
+
 Route::get('/settings/getSekolah', [SettingController::class, 'getSekolah'])->name('settings.json');
-
-
-Route::get('/symlink', function () {
-    Artisan::call('route:cache');
-    Artisan::call('route:clear');
-});

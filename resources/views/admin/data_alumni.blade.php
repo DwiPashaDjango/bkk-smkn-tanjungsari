@@ -54,11 +54,11 @@
                                     <td>
                                         @if (!isset($item->user_profile->avatar))
                                             <a href="{{url('/data-alumni/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
-                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-id="{{$item->id}}"><i class="fas fa-trash"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal_{{$item->id}}"><i class="fas fa-trash"></i></a>
                                         @else
                                             <a href="{{url('/data-alumni/generate/' . $item->id)}}" target="__blank" class="btn btn-info btn-sm"><i class="fas fa-download"></i></a>
                                             <a href="{{url('/data-alumni/' . $item->id . '/edit')}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
-                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm delete" data-id="{{$item->id}}"><i class="fas fa-trash"></i></a>
+                                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal_{{$item->id}}"><i class="fas fa-trash"></i></a>
                                         @endif
                                     </td>
                                 </tr>
@@ -212,6 +212,31 @@
                 <a href="{{asset('template/contoh_format_excel.xlsx')}}" download="" class="btn btn-success float-left">Download Template Excel</a>
                 <button type="submit" class="btn btn-primary float-right">Import</button>
             </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteModal_{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Peringatan</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p class="text-danger"><b>Data Yang Di Hapus Tidak Bisa Di Kembalikan</b></p>
+        </div>
+        <div class="modal-footer">
+            <form action="{{route('delete.alumni', $item->id)}}" method="POST">
+                @csrf
+                @method("DELETE")
+                <button class="btn btn-danger">Hapus</button>
+            </form>
+        </div>
         </div>
       </div>
     </div>

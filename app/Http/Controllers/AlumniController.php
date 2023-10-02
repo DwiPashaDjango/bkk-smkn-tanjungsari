@@ -118,7 +118,7 @@ class AlumniController extends Controller
         $user = User::with('user_profile')->find($id);
         $user->user_profile()->delete();
         $user->delete();
-        return response()->json(['success' => 'Berhasil Menghapus Data Alumni.']);
+        return back()->with(['message' => 'Berhasil Menghapus Data Siswa']);
     }
 
     public function exportPdf($thn_lulus)

@@ -49,7 +49,8 @@ class GuestProfileController extends Controller
             'tgl_lahir' => 'required',
             'thn_lulus' => 'required',
             'sts_karir' => 'required',
-            'telp' => 'required'
+            'telp' => 'required',
+            'alamat' => 'required'
         ], [
             'name.required' => 'Nama Lengkap Tidak Boleh Kosong.',
             'email.required' => 'Email Tidak Boleh Kosong.',
@@ -86,7 +87,8 @@ class GuestProfileController extends Controller
                 'penghasilan' => $request->penghasilan,
                 'universitas' => $request->universitas,
                 'telp' => $request->telp,
-                'avatar' => $fileName
+                'avatar' => $fileName,
+                'alamat' => $request->alamat
             ]);
         } else {
             $data->update([
@@ -103,7 +105,8 @@ class GuestProfileController extends Controller
                 'penghasilan' => $request->penghasilan,
                 'universitas' => $request->universitas,
                 'telp' => $request->telp,
-                'avatar' => $data->user_profile->avatar
+                'avatar' => $data->user_profile->avatar,
+                'alamat' => $request->alamat
             ]);
         }
         return back()->with(['message' => 'Berhasil Mengupdate Profile']);

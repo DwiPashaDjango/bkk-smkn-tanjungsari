@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('telp');
             $table->string('universitas')->nullable();
             $table->string('penghasilan')->nullable();
+            $table->text('alamat')->nullable();
             $table->string('avatar')->default('default.png');
             $table->timestamps();
         });

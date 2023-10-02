@@ -167,6 +167,17 @@
                         </div>
                         <div class="col-lg-12 col-md-12">
                             <div class="form-group">
+                                <label for="">Alamat</label>
+                                <input type="text" value="{{old('alamat')}}" name="alamat" class="form-control @error('alamat') is-invalid @enderror">
+                                @error('alamat')
+                                    <span class="invalid-feedback">
+                                        {{$message}}
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
                                 <label for="">Foto 2 x 3 Atau 4 x 6</label>
                                 <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror">
                                 @error('avatar')

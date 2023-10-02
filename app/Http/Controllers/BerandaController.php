@@ -34,7 +34,8 @@ class BerandaController extends Controller
             'sts_karir' => 'required',
             'telp' => 'required',
             'avatar' => 'required|mimes:jpg,jpeg,png|max:2048',
-            'email' => 'required|email|unique:users,email'
+            'email' => 'required|email|unique:users,email',
+            'alamat' => 'required'
         ], [
             'tmp_lahir.required' => 'Tempat Lahir Tidak Boleh Kosong.',
             'tgl_lahir.required' => 'Tanggal Lahir Tidak Boleh Kosong.',
@@ -66,7 +67,8 @@ class BerandaController extends Controller
             'universitas' => $request->universitas,
             'perusahaan' => $request->perusahaan,
             'telp' => $request->telp,
-            'avatar' => $fileName
+            'avatar' => $fileName,
+            'alamat' => $request->alamat
         ]);
 
         $token = Str::random(64);

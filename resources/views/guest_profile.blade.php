@@ -154,6 +154,17 @@
                         @enderror
                     </div>
                 </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="form-group">
+                        <label for="">Alamat</label>
+                        <input type="text" name="alamat" value="{{Auth::user()->user_profile->alamat ?? ''}}" class="form-control @error('alamat') is-invalid @enderror">
+                        @error('alamat')
+                            <span class="invalid-feedback">
+                                {{$message}}
+                            </span>
+                        @enderror
+                    </div>
+                </div>
                 <div class="col-lg-8 col-md-6">
                     <div class="form-group">
                         <label for="">Foto</label>
